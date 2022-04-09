@@ -4,10 +4,9 @@ English | [简体中文](./README-zh.md)
 
 > A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
 
-**Live demo:** http://X-Mars.github.io/devops-test
+**特别鸣谢:** https://github.com/PanJiaChen/vue-element-admin
 
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/X-Mars/devops-test/tree/tag/3.11.0), it does not rely on `vue-cli`**
 
 ## Build Setup
 
@@ -53,28 +52,6 @@ npm run lint
 # code format check and auto fix
 npm run lint -- --fix
 ```
-
-Refer to [Documentation](https://X-Mars.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
-
-## Demo
-
-![demo](https://github.com/X-Mars/X-Mars.github.io/blob/master/images/demo.gif)
-
-## Extra
-
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/X-Mars/devops-test/tree/permission-control)
-
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
-
-## Related Project
-
-- [vue-element-admin](https://github.com/X-Mars/vue-element-admin)
-
-- [electron-vue-admin](https://github.com/X-Mars/electron-vue-admin)
-
-- [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-- [awesome-project](https://github.com/X-Mars/vue-element-admin/issues/2312)
 
 ## Browsers support
 
