@@ -13,14 +13,19 @@
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="用户名">
+      <el-table-column label="书名">
         <template slot-scope="scope">
-          {{ scope.row.username }}
+          {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="email">
+      <el-table-column label="作者">
         <template slot-scope="scope">
-          {{ scope.row.email }}
+          {{ scope.row.auther }}
+        </template>
+      </el-table-column>
+      <el-table-column label="是否删除">
+        <template slot-scope="scope">
+          {{ scope.row.is_delete ? '是' : '否' }}
         </template>
       </el-table-column>
       <!-- <el-table-column label="Author" width="110" align="center">
@@ -50,6 +55,7 @@
 
 <script>
 import { getList } from '@/api/table'
+import { getBooksList } from '@/api/user'
 
 export default {
   filters: {
@@ -69,12 +75,21 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    // this.fetchData(),
+    this.fetchBooksList()
   },
   methods: {
     fetchData() {
       this.listLoading = true
       getList().then(response => {
+        this.list = response.data.results
+        this.listLoading = false
+      })
+    },
+    fetchBooksList() {
+      this.listLoading = true
+      getBooksList().then(response => {
+        console.log('getBooksList ========> ', response)
         this.list = response.data.results
         this.listLoading = false
       })

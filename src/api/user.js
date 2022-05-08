@@ -22,3 +22,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getBooksList(params) {
+  return request({
+    url: '/books/',
+    method: 'get',
+    params
+  })
+}
