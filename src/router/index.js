@@ -76,6 +76,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/table2',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Table2',
+        component: () => import('@/views/table2/index'),
+        meta: { title: 'Table2', icon: 'el-icon-document' }
+      }
+    ]
+  },
 
   {
     path: '/form',

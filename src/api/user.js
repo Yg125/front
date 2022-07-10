@@ -30,3 +30,18 @@ export function getBooksList(params) {
     params
   })
 }
+
+export function deleteBook(book_id) {
+  return request({
+    url: '/books/' + book_id + '/',
+    method: 'delete',
+  })
+}
+
+export function updateBook(book_id, data) {
+  return request({
+    url: '/books/' + book_id + '/',
+    method: 'patch',
+    data
+  })
+}
