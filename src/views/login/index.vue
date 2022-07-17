@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">火星小刘</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,33 +41,87 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登陆</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <el-button type="text" @click="dialogFormVisible = true">注册用户</el-button>
+        <!-- <span style="margin-right:20px;">username: admin</span>
+        <span> password: any</span> -->
       </div>
 
     </el-form>
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="用户名" prop="username">
+          <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input type="text" v-model="ruleForm.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input type="password" v-model="ruleForm.checkPassword" autocomplete="off"></el-input>
+        </el-form-item>
+        <!-- <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item> -->
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false; submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { createUser } from '@/api/user'
 
 export default {
   name: 'Login',
   data() {
+    var validateEmail = (rule, value, callback) => {
+        let temp = /^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$/
+        if (value && (!(temp).test(value))) {
+          callback(new Error('请输入正确的邮箱'))
+        } else {
+          callback()
+        }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '' || value.length < 7) {
+        callback(new Error('请输入大于8位的密码'));
+      } else {
+        if (this.ruleForm.checkPassword !== '') {
+          this.$refs.ruleForm.validateField('checkPassword');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
+
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入有效的用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 7) {
+        callback(new Error('请输入大于8位的密码'))
       } else {
         callback()
       }
@@ -83,7 +137,29 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      ruleForm: {
+          username: '',
+          email: '',
+          password: '',
+          checkPassword: ''
+        },
+      rules: {
+        username: [
+          { required: true, trigger: 'blur', message: '请输入用户名' }
+        ],
+        email: [
+          { required: true, validator: validateEmail, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        checkPassword: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
+        ],
+      },
+      formLabelWidth: '120px',
+      dialogFormVisible: false
     }
   },
   watch: {
@@ -120,7 +196,34 @@ export default {
           return false
         }
       })
-    }
+    },
+    submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            
+            createUser(this.ruleForm).then(response => {
+              console.log(response)
+              if(response.status == 201) {
+                this.$message({
+                  message: '用户创建成功，请登录邮箱，激活用户。',
+                  type: 'success'
+                });
+              } else {    
+                this.$message({
+                  message: '用户创建失败，请重试。',
+                  type: 'error'
+                });
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
   }
 }
 </script>

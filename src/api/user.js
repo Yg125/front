@@ -45,3 +45,18 @@ export function updateBook(book_id, data) {
     data
   })
 }
+
+export function createUser(data) {
+  return request({
+    url: '/user_create/',
+    method: 'post',
+    data
+  })
+}
+
+export function activateUser(code) {
+  return request({
+    url: '/user_activate/' + code + '/',
+    method: 'get',
+  })
+}
