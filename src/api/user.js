@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/login/',
+    url: 'rbac/login/',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/info/',
+    url: 'rbac/info/',
     method: 'get',
     params: { token }
   })
@@ -23,9 +23,9 @@ export function logout() {
   })
 }
 
-export function getBooksList(params) {
+export function getUsersList(params) {
   return request({
-    url: '/books/',
+    url: 'rbac/users/',
     method: 'get',
     params
   })

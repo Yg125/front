@@ -8,26 +8,42 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column align="center" label="Work_ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.row.work_id }}
         </template>
       </el-table-column>
-      <el-table-column label="书名">
+      <el-table-column label="用户名" align="center">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="作者">
+      <el-table-column label="电话号码" align="center">
         <template slot-scope="scope">
-          {{ scope.row.auther }}
+          {{ scope.row.phone }}
         </template>
       </el-table-column>
-      <el-table-column label="是否删除">
+      <el-table-column label="邮箱" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.email }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+      <!-- <el-table-column label="是否删除" align="center">
         <template slot-scope="scope">
           {{ scope.row.is_delete ? '是' : '否' }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column label="Author" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
@@ -55,7 +71,7 @@
 
 <script>
 import { getList } from '@/api/table'
-import { getBooksList } from '@/api/user'
+import { getUsersList } from '@/api/user'
 
 export default {
   filters: {
@@ -75,14 +91,16 @@ export default {
     }
   },
   created() {
-    // this.fetchData(),
-    this.fetchBooksList()
+    this.fetchData()
+    //this.fetchBooksList()
   },
   methods: {
     fetchData() {
       this.listLoading = true
       getList().then(response => {
-        this.list = response.data.results
+        console.log(response)
+        this.list = response.data.lists
+        console.log(this.list)
         this.listLoading = false
       })
     },
