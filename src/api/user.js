@@ -23,11 +23,26 @@ export function logout() {
   })
 }
 
-export function getUsersList(params) {
+export function addUser(data) {
   return request({
     url: 'rbac/users/',
-    method: 'get',
-    params
+    method: 'post',
+    data
+  })
+}
+
+export function deleteUser(user_id){
+  return request({
+    url:'rbac/users/' + user_id + '/',
+    method:'delete',
+  })
+}
+
+export function updateUser(user_id, data){
+  return request({
+    url:'rbac/users/' + user_id + '/',
+    method:'put',
+    data
   })
 }
 

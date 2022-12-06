@@ -62,17 +62,35 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/manage',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    // redirect: '/manage/users',
+    name: 'Manage',
+    meta: { title: '管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/users/index'),
+        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+      },
+      {
+        path: 'courses',
+        name: 'Courses',
+        component: () => import('@/views/courses/index'),
+        meta: { title: '课程管理', icon: 'table' }
+      },
+      {
+        path: 'images',
+        name: 'Images',
+        component: () => import('@/views/images/index'),
+        meta: { title: '镜像管理', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'containers',
+        name: 'Containers',
+        component: () => import('@/views/containers/index'),
+        meta: { title: '容器管理', icon: 'el-icon-s-help' }
       },
       {
         path: 'tree',
