@@ -61,45 +61,7 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/manage',
-    component: Layout,
-    // redirect: '/manage/users',
-    name: 'Manage',
-    meta: { title: '管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'users',
-        name: 'Users',
-        component: () => import('@/views/users/index'),
-        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
-      },
-      {
-        path: 'courses',
-        name: 'Courses',
-        component: () => import('@/views/courses/index'),
-        meta: { title: '课程管理', icon: 'table' }
-      },
-      {
-        path: 'images',
-        name: 'Images',
-        component: () => import('@/views/images/index'),
-        meta: { title: '镜像管理', icon: 'el-icon-s-platform' }
-      },
-      {
-        path: 'containers',
-        name: 'Containers',
-        component: () => import('@/views/containers/index'),
-        meta: { title: '容器管理', icon: 'el-icon-s-help' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+
   {
     path: '/table2',
     component: Layout,
@@ -112,38 +74,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/mine',
-    compoment: Layout,
-    name: '/Mine',
-    meta: { title:'我的', icon: 'el-icon-s-platform'},
-    children: [
-      {
-        path: 'mycourses',
-        name: 'Mycourses',
-        component: () => import('@/views/mycourses/index'),
-        meta: {title: '我的课程', icon: 'table' }
-      },
-      {
-        path: 'selcourses',
-        name: 'Selcourses',
-        component: () => import('@/views/selcourses/index'),
-        meta: { title: '待选课程', icon: 'el-icon-s-platform' }
-      },
-      {
-        path: 'mycontainer',
-        name: 'Mycontainer',
-        component: () => import('@/views/mycontainer/index'),
-        meta: { title: '我的容器', icon: 'el-icon-s-platform' }
-      }, 
-      {
-        path: 'myfiles',
-        name: 'Myfiles',
-        component: () => import('@/views/myfiles/index'),
-        meta: { title: '我的文件', icon: 'el-icon-s-platform' }
-      },
-    ]
-  },
+ 
   
   {
     path: '/form',
@@ -222,7 +153,77 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  {
+    path: '/manage',
+    component: Layout,
+    // redirect: '/manage/users',
+    name: 'Manage',
+    meta: { title: '管理', icon: 'el-icon-s-help' ,roles:['superuser'] },
+    children: [
+      {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/users/index'),
+        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+      },
+      {
+        path: 'courses',
+        name: 'Courses',
+        component: () => import('@/views/courses/index'),
+        meta: { title: '课程管理', icon: 'table' }
+      },
+      {
+        path: 'images',
+        name: 'Images',
+        component: () => import('@/views/images/index'),
+        meta: { title: '镜像管理', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'containers',
+        name: 'Containers',
+        component: () => import('@/views/containers/index'),
+        meta: { title: '容器管理', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: 'Tree', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/mine',
+    component: Layout,
+    name: 'Mine',
+    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student']},
+    children: [
+      {
+        path: 'mycourses',
+        name: 'Mycourses',
+        component: () => import('@/views/mycourses/index'),
+        meta: {title: '我的课程', icon: 'table' ,roles:['student']}
+      },
+      {
+        path: 'selcourses',
+        name: 'Selcourses',
+        component: () => import('@/views/selcourses/index'),
+        meta: { title: '待选课程', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'mycontainer',
+        name: 'Mycontainer',
+        component: () => import('@/views/mycontainer/index'),
+        meta: { title: '我的容器', icon: 'el-icon-s-platform' }
+      }, 
+      {
+        path: 'myfiles',
+        name: 'Myfiles',
+        component: () => import('@/views/myfiles/index'),
+        meta: { title: '我的文件', icon: 'el-icon-s-platform' }
+      },
+    ]
+  },
   {
     path: 'external-link',
     component: Layout,

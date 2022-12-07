@@ -28,3 +28,26 @@ export function updateCourse(id, data) {
         data
     })
 }
+
+export function selectedCourse(params) {
+    return request({
+        url: 'oper/selectedcourses/',
+        method: 'get',
+        params
+    })
+}
+
+export function selectCourse(params) {
+    return request({
+        url: 'oper/selectcourses/',
+        method: 'get',
+        params
+    })
+}
+
+export function select(params) {
+    return request({
+        url: 'oper/select/?course_name=' + params,
+        method: 'get',
+    })
+}

@@ -83,6 +83,7 @@ const actions = {
       removeToken() // must remove  token  first
       resetRouter()
       commit('RESET_STATE')
+      commit('SET_ROLES', [])
       resolve()
       // logout(state.token).then(() => {
       //   removeToken() // must remove  token  first
@@ -100,6 +101,7 @@ const actions = {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
+      commit('SET_ROLES', [])
       resolve()
     })
   }

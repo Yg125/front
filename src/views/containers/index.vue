@@ -56,7 +56,7 @@
   </template>
   
   <script>
-  import { getContainersList } from '@/api/table'
+  import { getContainersList } from '@/api/container'
   export default {
     filters: {
       statusFilter(status) {

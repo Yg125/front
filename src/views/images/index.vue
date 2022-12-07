@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import { getImagesList } from '@/api/table'
+  import { getImagesList } from '@/api/image'
   export default {
     filters: {
       statusFilter(status) {
