@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import { getImagesList } from '@/api/image'
+  import { getImageList } from '@/api/image'
   export default {
     filters: {
       statusFilter(status) {
@@ -59,7 +59,7 @@
     methods: {
       fetchImagesList() {
         this.listLoading = true
-        getImagesList().then(response => {
+        getImageList().then(response => {
           this.list = response.data.lists
           this.listLoading = false
         })

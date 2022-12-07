@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getImagesList() {
+export function getImageList() {
     return request({
       url: 'lab/images/',
       method: 'get'

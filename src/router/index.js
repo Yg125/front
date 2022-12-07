@@ -62,32 +62,32 @@ export const constantRoutes = [
   },
 
 
-  {
-    path: '/table2',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Table2',
-        component: () => import('@/views/table2/index'),
-        meta: { title: 'Table2', icon: 'el-icon-document' }
-      }
-    ]
-  },
+  // {
+  //   path: '/table2',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Table2',
+  //       component: () => import('@/views/table2/index'),
+  //       meta: { title: 'Table2', icon: 'el-icon-document' }
+  //     }
+  //   ]
+  // },
  
   
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  }
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -164,13 +164,13 @@ export const asyncRoutes = [
         path: 'users',
         name: 'Users',
         component: () => import('@/views/users/index'),
-        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+        meta: { title: '用户管理', icon: 'el-icon-user-solid', roles:['superuser']}
       },
       {
         path: 'courses',
         name: 'Courses',
         component: () => import('@/views/courses/index'),
-        meta: { title: '课程管理', icon: 'table' }
+        meta: { title: '课程管理', icon: 'table' ,roles:['superuser']}
       },
       {
         path: 'images',
@@ -184,31 +184,31 @@ export const asyncRoutes = [
         component: () => import('@/views/containers/index'),
         meta: { title: '容器管理', icon: 'el-icon-s-help' }
       },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+      // {
+      //   path: 'tree',
+      //   name: 'Tree',
+      //   component: () => import('@/views/tree/index'),
+      //   meta: { title: 'Tree', icon: 'tree' }
+      // }
     ]
   },
   {
     path: '/mine',
     component: Layout,
     name: 'Mine',
-    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student']},
+    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student', 'teacher']},
     children: [
       {
         path: 'mycourses',
         name: 'Mycourses',
         component: () => import('@/views/mycourses/index'),
-        meta: {title: '我的课程', icon: 'table' ,roles:['student']}
+        meta: {title: '我的课程', icon: 'table'}
       },
       {
         path: 'selcourses',
         name: 'Selcourses',
         component: () => import('@/views/selcourses/index'),
-        meta: { title: '待选课程', icon: 'el-icon-s-platform' }
+        meta: { title: '可选课程', icon: 'el-icon-s-platform' }
       },
       {
         path: 'mycontainer',
@@ -224,16 +224,18 @@ export const asyncRoutes = [
       },
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
+  
+
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

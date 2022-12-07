@@ -110,9 +110,9 @@ export default {
       this.resetForm('courseForm')
       this.fetchCoursesList()
     },
-    pop_show(){
-      this.resetForm('addForm')
-    }
+    // pop_show(){
+    //   this.resetForm('addForm')
+    // }
   },
   mounted() {
     this.fetchCoursesList(),
@@ -135,7 +135,10 @@ export default {
     addcourse() {
       addCourse(this.addForm).then(response => {
         this.fetchCoursesList()
+        this.pop_show=false
+        this.resetForm('addForm')
       })
+      
     },
     updatecourse() {
       updateCourse(this.courseForm.id, this.courseForm).then(response => {

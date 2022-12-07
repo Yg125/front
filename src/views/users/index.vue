@@ -210,8 +210,8 @@ export default {
   },
   watch: {
     visible() {
-      console.log('chan')
       this.fetchUsersList()
+      this.resetForm('userForm')
     },
     pop_show() {
       this.resetForm('userForm')
@@ -231,6 +231,8 @@ export default {
     adduser() {
       addUser(this.userForm).then(response => {
         this.fetchUsersList()
+        this.resetForm('userForm') 
+        this.pop_show=false
       })
     },
     deleteuser(row) {
