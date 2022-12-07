@@ -58,7 +58,7 @@
             class="input_width"></el-input>
         </el-form-item>
 
-        <el-form-item label="使用镜像:" prop="image_id">
+        <el-form-item label="使用镜像:" prop="image_id" required>
           <el-select v-model="addForm.image_id" size="small">
               <el-option
                 v-for="item in images_list"
