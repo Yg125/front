@@ -36,179 +36,184 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" plain @click="visible = true;userForm = scope.row">修改</el-button>
+          <el-button type="primary" size="small" plain @click="visible = true; userForm = scope.row">修改</el-button>
           <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="deleteuser(scope.row)">
-            <el-button type="danger" size="small" slot="reference" >删除</el-button>
+            <el-button type="danger" size="small" slot="reference">删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
 
-<el-dialog title="修改用户" :visible.sync="visible">
-  <el-form :model="userform">
-    <el-form-item label="用户名:" prop="username">
-      <el-input type="text" v-model="userForm.username" autocomplete="off" size="small" class="input_width" disabled></el-input>
-    </el-form-item>
-    <el-form-item label="密码:" prop="password">
-      <el-input type="password" v-model="userForm.password" autocomplete="off" size="small" class="input_width" disabled></el-input>
-    </el-form-item>
-    <el-form-item label="角色:" prop="role">
-      <el-select v-model="userForm.role" size="small" class="input_width">
-        <el-option value="1" label="学生">学生</el-option>
-        <el-option value="2" label="老师">老师</el-option> 
-      </el-select>
-    </el-form-item>
-    <el-form-item label="学号/职工号:" prop="work_id">
-      <el-input type="text" v-model="userForm.work_id" autocomplete="off" size="small" class="input_width"></el-input>
-    </el-form-item>
-    <el-form-item label="专业:" prop="department">
-      <el-input type="text" v-model="userForm.department" autocomplete="off" size="small" class="input_width"></el-input>
-    </el-form-item> 
-    <el-form-item label="手机号:" prop="phone">
-      <el-input type="text" v-model="userForm.phone" autocomplete="off" size="small" class="input_width"></el-input>
-    </el-form-item>
-    <el-form-item label="邮箱:" prop="email">
-      <el-input type="text" v-model="userForm.email" autocomplete="off" size="small" class="input_width"></el-input>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="visible = false">取 消</el-button>
-    <el-button type="primary" @click="updateuser">确 定</el-button>
-  </div>
-</el-dialog>
+    <el-dialog title="修改用户" :visible.sync="visible">
+      <el-form :model="userForm">
+        <el-form-item label="用户名:" prop="username">
+          <el-input type="text" v-model="userForm.username" autocomplete="off" size="small" class="input_width"
+            disabled></el-input>
+        </el-form-item>
+        <el-form-item label="密码:" prop="password">
+          <el-input type="password" v-model="userForm.password" autocomplete="off" size="small" class="input_width"
+            disabled></el-input>
+        </el-form-item>
+        <el-form-item label="角色:" prop="role">
+          <el-select v-model="userForm.role" size="small" class="input_width">
+            <el-option value="1" label="学生">学生</el-option>
+            <el-option value="2" label="老师">老师</el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="学号/职工号:" prop="work_id">
+          <el-input type="text" v-model="userForm.work_id" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="专业:" prop="department">
+          <el-input type="text" v-model="userForm.department" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号:" prop="phone">
+          <el-input type="text" v-model="userForm.phone" autocomplete="off" size="small" class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="email">
+          <el-input type="text" v-model="userForm.email" autocomplete="off" size="small" class="input_width"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="updateuser">确 定</el-button>
+      </div>
+    </el-dialog>
 
-<el-button type="primary" size="small"  @click="pop_show = true">增加用户</el-button>
-      <el-dialog title="增加用户" :visible.sync="pop_show" append-to-body>
-        <el-form :model="userForm" status-icon :rules="rulesUserForm" ref="userForm" label-width="100px">
-          <el-form-item label="角色:" prop="role">
-            <el-select v-model="userForm.role" size="small" class="input_width">
-              <el-option value="1" label="学生">学生</el-option>
-              <el-option value="2" label="老师">老师</el-option> 
-            </el-select>
-          </el-form-item>
-          <el-form-item label="学号/职工号:" prop="work_id">
-            <el-input type="text" v-model="userForm.work_id" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item label="用户名:" prop="username">
-            <el-input type="text" v-model="userForm.username" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item label="密码:" prop="password">
-            <el-input type="password" v-model="userForm.password" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码:" prop="passcheck">
-            <el-input type="password" v-model="userForm.passcheck" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item label="专业:" prop="department">
-            <el-input type="text" v-model="userForm.department" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item> 
-          <el-form-item label="手机号:" prop="phone">
-            <el-input type="text" v-model="userForm.phone" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱:" prop="email">
-            <el-input type="text" v-model="userForm.email" autocomplete="off" size="small" class="input_width"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="adduser">提交</el-button>
-            <el-button @click="resetForm('userForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
+    <el-button type="primary" size="small" @click="pop_show = true">增加用户</el-button>
+    <el-dialog title="增加用户" :visible.sync="pop_show" append-to-body>
+      <el-form :model="userForm" status-icon :rules="rulesUserForm" ref="userForm" label-width="100px">
+        <el-form-item label="角色:" prop="role">
+          <el-select v-model="userForm.role" size="small" class="input_width">
+            <el-option value="1" label="学生">学生</el-option>
+            <el-option value="2" label="老师">老师</el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="学号/职工号:" prop="work_id">
+          <el-input type="text" v-model="userForm.work_id" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名:" prop="username">
+          <el-input type="text" v-model="userForm.username" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="密码:" prop="password">
+          <el-input type="password" v-model="userForm.password" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码:" prop="passcheck">
+          <el-input type="password" v-model="userForm.passcheck" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="专业:" prop="department">
+          <el-input type="text" v-model="userForm.department" autocomplete="off" size="small"
+            class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号:" prop="phone">
+          <el-input type="text" v-model="userForm.phone" autocomplete="off" size="small" class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="email">
+          <el-input type="text" v-model="userForm.email" autocomplete="off" size="small" class="input_width"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="adduser">提交</el-button>
+          <el-button @click="resetForm('userForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { getUsersList } from '@/api/table'
-import { deleteUser,updateUser,addUser } from '@/api/user'
+import { getUsersList, deleteUser, updateUser, addUser } from '@/api/user'
 
 export default {
 
   data() {
     var validateUserName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('用户名不能为空!'));
+      if (value === '') {
+        callback(new Error('用户名不能为空!'));
+      } else {
+        var reUser = /^\w{5,20}$/;
+        if (reUser.test(value)) {
+          callback()
         } else {
-          var reUser = /^\w{5,20}$/;
-          if(reUser.test(value))
-          {
-            callback()
-          }else{
-             callback(new Error('用户名是5到20位数字、字母或下划线'));
-          }
+          callback(new Error('用户名是5到20位数字、字母或下划线'));
         }
-    }; 
+      }
+    };
     var validatePassWord = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('密码不能为空!'));
+      if (value === '') {
+        callback(new Error('密码不能为空!'));
+      } else {
+        var rePass = /^[\w!@#$%^&*]{8,20}$/;
+        if (rePass.test(value)) {
+          callback()
         } else {
-          var rePass = /^[\w!@#$%^&*]{8,20}$/;
-          if(rePass.test(value))
-          {
-            callback()
-          }else{
-             callback(new Error('密码是8到20位数字、字母或下划线以及特殊!@#$%^&*符号'));
-          }
+          callback(new Error('密码是8到20位数字、字母或下划线以及特殊!@#$%^&*符号'));
         }
-    }; 
+      }
+    };
     var validatePassCheck = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.userForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.userForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
     };
     var validatePhone = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('手机号不能为空!'));
+      if (value === '') {
+        callback(new Error('手机号不能为空!'));
+      } else {
+        var rePhone = /^1[34578]\d{9}$/;
+        if (rePhone.test(value)) {
+          callback()
         } else {
-          var rePhone = /^1[34578]\d{9}$/;
-          if(rePhone.test(value))
-          {
-            callback()
-          }else{
-             callback(new Error('手机格式不正确'));
-          }
+          callback(new Error('手机格式不正确'));
         }
-    }; 
+      }
+    };
     return {
       list: null,
       listLoading: true,
-      visible:false,
-      pop_show:false,
-      userForm:{
-        username:'',
-        password:'',
-        passcheck:'',
-        phone:'',
-        email:'',
-        role:'',
-        work_id:'',
-        department:'',
+      visible: false,
+      pop_show: false,
+      userForm: {
+        username: '',
+        password: '',
+        passcheck: '',
+        phone: '',
+        email: '',
+        role: '',
+        work_id: '',
+        department: '',
       },
-      rulesUserForm:{
+      rulesUserForm: {
         username: [
-            { validator: validateUserName, trigger: 'blur' }
+          { validator: validateUserName, trigger: 'blur' }
         ],
         password: [
-            { validator: validatePassWord, trigger: 'blur' }
+          { validator: validatePassWord, trigger: 'blur' }
         ],
         passcheck: [
-            { validator: validatePassCheck, trigger: 'blur' }
+          { validator: validatePassCheck, trigger: 'blur' }
         ],
         phone: [
-            { validator: validatePhone, trigger: 'blur' }
+          { validator: validatePhone, trigger: 'blur' }
         ]
       }
     }
   },
-  watch:{
-    visible(){
+  watch: {
+    visible() {
       console.log('chan')
       this.fetchUsersList()
     },
-    pop_show(){
+    pop_show() {
       this.resetForm('userForm')
     }
   },
@@ -223,33 +228,32 @@ export default {
         this.listLoading = false
       })
     },
-    adduser(){
-      addUser(this.userForm).then(response=>{
+    adduser() {
+      addUser(this.userForm).then(response => {
         this.fetchUsersList()
       })
     },
-    deleteuser(row){
-      console.log(row)
-      deleteUser(row.id).then(response =>{
+    deleteuser(row) {
+      deleteUser(row.id).then(response => {
         console.log('deleteBook ========> ', response)
         this.fetchUsersList()
       })
     },
-    updateuser(){
+    updateuser() {
       console.log(this.userForm.id)
-      updateUser(this.userForm.id, this.userForm).then(response =>{
-         this.fetchUsersList()
-       })
-      this.visible=false
+      updateUser(this.userForm.id, this.userForm).then(response => {
+        this.fetchUsersList()
+      })
+      this.visible = false
     },
-    resetForm(formName){
+    resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-    }
   }
+}
 </script>
 <style scoped>
-.input_width{
-  width:250px;
+.input_width {
+  width: 250px;
 }
 </style>

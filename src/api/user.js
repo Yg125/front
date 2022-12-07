@@ -7,6 +7,13 @@ export function login(data) {
     data
   })
 }
+export function getUsersList(params) {
+  return request({
+    url: 'rbac/users/',
+    method: 'get',
+    params
+  })
+}
 
 export function getInfo(token) {
   return request({

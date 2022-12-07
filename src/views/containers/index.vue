@@ -30,23 +30,25 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="courses"
+        prop="courses.name"
         label="使用课程"
         align="center">
       </el-table-column>
       <el-table-column
-        fixed="image"
+        prop="image.image_name"
         label="相关镜像"
         align="center">
     </el-table-column>
     <el-table-column
         fixed="right"
         label="操作"
-        align="center">
+        align="center"
+        width="300px">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="primary" size="small" plain>修改</el-button>
+          <el-button @click="handleClick(scope.row)" type="primary" size="mini" plain>停止</el-button>
+          <el-button @click="handleClick(scope.row)" type="primary" size="mini" plain>启动</el-button> 
           <el-popconfirm title="这是一段内容确定删除吗？">
-            <el-button type="danger" size="small" slot="reference">删除</el-button>
+            <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>

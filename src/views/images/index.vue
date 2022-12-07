@@ -24,14 +24,10 @@
         label="大小"
         align="center">
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="primary" size="small" plain>修改</el-button>
-          <el-popconfirm title="这是一段内容确定删除吗？">
-            <el-button type="danger" size="small" slot="reference">删除</el-button>
+          <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="deleteimage(scope.row)">
+            <el-button type="danger" size="small" slot="reference" >删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
