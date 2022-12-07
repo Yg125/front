@@ -112,7 +112,39 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/mine',
+    compoment: Layout,
+    name: '/Mine',
+    meta: { title:'我的', icon: 'el-icon-s-platform'},
+    children: [
+      {
+        path: 'mycourses',
+        name: 'Mycourses',
+        component: () => import('@/views/mycourses/index'),
+        meta: {title: '我的课程', icon: 'table' }
+      },
+      {
+        path: 'selcourses',
+        name: 'Selcourses',
+        component: () => import('@/views/selcourses/index'),
+        meta: { title: '待选课程', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'mycontainer',
+        name: 'Mycontainer',
+        component: () => import('@/views/mycontainer/index'),
+        meta: { title: '我的容器', icon: 'el-icon-s-platform' }
+      }, 
+      {
+        path: 'myfiles',
+        name: 'Myfiles',
+        component: () => import('@/views/myfiles/index'),
+        meta: { title: '我的文件', icon: 'el-icon-s-platform' }
+      },
+    ]
+  },
+  
   {
     path: '/form',
     component: Layout,
@@ -139,38 +171,39 @@ export const asyncRoutes = [
     name: 'Nested',
     meta: {
       title: 'Nested',
-      icon: 'nested'
+      icon: 'nested',
+      roles:['superuser']
     },
     children: [
       {
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: 'Menu1' },
+        meta: { title: 'Menu1', roles:['superuser']},
         children: [
           {
             path: 'menu1-1',
             component: () => import('@/views/nested/menu1/menu1-1'),
             name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
+            meta: { title: 'Menu1-1' , roles:['superuser']}
           },
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
             name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
+            meta: { title: 'Menu1-2' , roles:['superuser']},
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
+                meta: { title: 'Menu1-2-1' , roles:['superuser']}
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                 name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
+                meta: { title: 'Menu1-2-2' , roles:['superuser']}
               }
             ]
           },
@@ -178,14 +211,14 @@ export const asyncRoutes = [
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3'),
             name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
+            meta: { title: 'Menu1-3' , roles:['superuser']}
           }
         ]
       },
       {
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        meta: { title: 'menu2' , roles:['superuser']}
       }
     ]
   },
