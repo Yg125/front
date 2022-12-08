@@ -23,3 +23,9 @@ export function getMyTotalContainers(params) {
     params
   })
 }
+export function CreateContainer(params) {
+  return request({
+    url: 'oper/container/?course_id=' + params,
+    method: 'get',
+  })
+}
