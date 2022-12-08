@@ -98,7 +98,8 @@ export default {
           name:'',
           env:'',
           create_by:'',
-          image_id:'', 
+          image_id:'',
+          number:0, // 默认为0 选课逻辑中后端需要一个int 
       },
       images_list:[],
       visible: false,
