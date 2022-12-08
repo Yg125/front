@@ -20,9 +20,16 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="300px">
                 <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="primary" size="mini" plain>停止</el-button>
-                    <el-button @click="handleClick(scope.row)" type="primary" size="mini" plain>启动</el-button>
-                    <el-popconfirm title="这是一段内容确定删除吗？">
+                    <el-button v-show="(scope.row.status !== 'exited')" @click="stopcontainer(scope.row.container_id)"
+                        type="primary" size="mini" plain>停止</el-button>
+                    <el-button v-show="(scope.row.status === 'exited')" @click="startcontainer(scope.row.container_id)"
+                        type="primary" size="mini" plain>启动</el-button>
+                    <el-popconfirm v-show="scope.row.status !== 'exited'" title="该容器还在运行，确定删除吗？"
+                        @onConfirm="removecontainer(scope.row.id)">
+                        <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
+                    </el-popconfirm>
+                    <el-popconfirm v-show="(scope.row.status === 'exited')" title="确定删除吗？"
+                        @onConfirm="removecontainer(scope.row.id)">
                         <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
                     </el-popconfirm>
                 </template>
@@ -33,7 +40,7 @@
 </template>
   
 <script>
-import { getMyContainersList,getMyTotalContainers } from '@/api/container'
+import { getMyContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer } from '@/api/container'
 export default {
     data() {
         return {
@@ -54,9 +61,28 @@ export default {
                 this.listLoading = false
             })
         },
-        fetchAllContainers(){
-            getMyTotalContainers().then(response =>{
+        fetchAllContainers() {
+            getTotalContainers().then(response => {
                 this.number = response.data.count
+            })
+        },
+        startcontainer(id) {
+            StartContainer(id).then(response => {
+                this.fetchContainersList()
+                this.$message('开启容器成功')
+            })
+        },
+        stopcontainer(id) {
+            StopContainer(id).then(response => {
+                this.fetchContainersList()
+                this.$message('停止容器成功') 
+            })
+        },
+        removecontainer(id) {
+            RemoveContainer(id).then(response => {
+                this.fetchContainersList()
+                this.fetchAllContainers()
+                this.$message('删除容器成功') 
             })
         }
     }
