@@ -29,3 +29,11 @@ export function deleteImage(id) {
       method: 'delete'
     })
 }
+
+export function BuildImage(name) {
+  return request({
+    url: 'oper/build/?name=' + name,
+    method: 'get',
+    name
+  })
+}

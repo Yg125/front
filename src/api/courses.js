@@ -51,3 +51,11 @@ export function select(params) {
         method: 'get',
     })
 }
+
+export function TeacourseList(params) {
+    return request({
+        url: 'oper/courses/',
+        method: 'get',
+        params
+    })
+}

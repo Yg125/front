@@ -184,6 +184,11 @@ export const asyncRoutes = [
         component: () => import('@/views/containers/index'),
         meta: { title: '容器管理', icon: 'el-icon-s-help' }
       },
+      {
+        path: 'http://127.0.0.1:9090/login',
+        name: 'files',
+        meta: { title: '文件管理', icon: 'el-icon-s-platform' }
+      },
       // {
       //   path: 'tree',
       //   name: 'Tree',
@@ -196,13 +201,13 @@ export const asyncRoutes = [
     path: '/mine',
     component: Layout,
     name: 'Mine',
-    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student', 'teacher']},
+    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student']},
     children: [
       {
         path: 'mycourses',
         name: 'Mycourses',
         component: () => import('@/views/mycourses/index'),
-        meta: {title: '我的课程', icon: 'table'}
+        meta: {title: '已选课程', icon: 'table'}
       },
       {
         path: 'selcourses',
@@ -219,12 +224,37 @@ export const asyncRoutes = [
       {
         path: 'myfiles',
         name: 'Myfiles',
-        component: () => import('@/views/myfiles/index'),
+        component: () => import('@/views/files/index'), 
         meta: { title: '我的文件', icon: 'el-icon-s-platform' }
       },
     ]
   },
-  
+  {
+    path: '/teacher',
+    component: Layout,
+    name: '老师',
+    meta: { title:'管理', icon: 'el-icon-s-platform', roles:['teacher']},
+    children: [
+      {
+        path: 'courses',
+        name: 'Courses',
+        component: () => import('@/views/teachercourse/index'),
+        meta: { title:'课程管理', icon: 'el-icon-s-platform'}
+      }, 
+      {
+        path: 'build',
+        name: 'Build',
+        component: () => import('@/views/build/index'),
+        meta: { title:'构建镜像', icon: 'el-icon-s-platform'}
+      },
+      {
+        path: 'images',
+        name: 'Images',
+        component: () => import('@/views/showimages/index'),
+        meta: { title: '查看镜像', icon: 'el-icon-s-platform' }
+      },
+    ]
+  },
 
   // {
   //   path: 'external-link',
