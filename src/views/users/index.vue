@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-input v-model="params.search" placeholder="请输入用户名、工号进行搜索" @change="fetchUsersList"/>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label="Work_ID" width="95">
         <template slot-scope="scope">
@@ -43,7 +44,10 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.page"
+      :page-sizes="[2, 10, 20, 50, 100, 200, 300, 400]" :page-size="params.page_size"
+      layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
     <el-dialog title="修改用户" :visible.sync="visible">
       <el-form :model="userForm">
         <el-form-item label="用户名:" prop="username">
@@ -205,7 +209,13 @@ export default {
         phone: [
           { validator: validatePhone, trigger: 'blur' }
         ]
-      }
+      },
+      params: {
+        'page': 1,
+        'page_size': 10,
+        'search':''
+      },
+      total: 0
     }
   },
   watch: {
@@ -221,18 +231,30 @@ export default {
     this.fetchUsersList()
   },
   methods: {
+    handleSizeChange(page_size) {
+      console.log(`每页 ${page_size} 条`);
+      this.params.page_size = page_size
+      this.fetchUsersList()
+    },
+    handleCurrentChange(page) {
+      console.log(`当前页: ${page}`);
+      this.params.page = page
+      this.fetchUsersList()
+    },
     fetchUsersList() {
       this.listLoading = true
-      getUsersList().then(response => {
+      getUsersList(this.params).then(response => { 
+        console.log(response.data)
         this.list = response.data.lists
+        this.total = response.data.count
         this.listLoading = false
       })
     },
     adduser() {
       addUser(this.userForm).then(response => {
         this.fetchUsersList()
-        this.resetForm('userForm') 
-        this.pop_show=false
+        this.resetForm('userForm')
+        this.pop_show = false
       })
     },
     deleteuser(row) {

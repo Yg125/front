@@ -62,18 +62,18 @@ export const constantRoutes = [
   },
 
 
-  // {
-  //   path: '/table2',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Table2',
-  //       component: () => import('@/views/table2/index'),
-  //       meta: { title: 'Table2', icon: 'el-icon-document' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/table2',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Table2',
+        component: () => import('@/views/table2/index'),
+        meta: { title: 'Table2', icon: 'el-icon-document' }
+      }
+    ]
+  },
  
   
   // {
@@ -189,6 +189,18 @@ export const asyncRoutes = [
         name: 'files',
         meta: { title: '文件管理', icon: 'el-icon-s-platform' }
       },
+      {
+        path: 'myfiles',
+        name: 'Myfiles',
+        component: () => import('@/views/files/index'), 
+        meta: { title: '我的文件', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'build',
+        name: 'Build',
+        component: () => import('@/views/build/index'),
+        meta: { title:'构建镜像', icon: 'el-icon-s-platform'}
+      },
       // {
       //   path: 'tree',
       //   name: 'Tree',
@@ -201,7 +213,7 @@ export const asyncRoutes = [
     path: '/mine',
     component: Layout,
     name: 'Mine',
-    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student']},
+    meta: { title:'我的', icon: 'el-icon-s-platform' ,roles:['student','teacher']},
     children: [
       {
         path: 'mycourses',

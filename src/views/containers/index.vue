@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-input v-model="params.search" placeholder="请输入容器名称或者容器ID进行搜索" @change="fetchContainersList"/>
     <el-table :data="list" border style="width: 100%">
       <el-table-column fixed prop="container_id" label="容器ID" align="center">
       </el-table-column>
@@ -35,6 +36,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.page"
+      :page-sizes="[2, 10, 20, 50, 100, 200, 300, 400]" :page-size="params.page_size"
+      layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
     <el-tag size="large">总容器数 {{ number }}</el-tag>
   </div>
 </template>
@@ -47,6 +52,12 @@ export default {
       list: null,
       listLoading: true,
       number: 0,
+      params: {
+        'page': 1,
+        'page_size': 10,
+        'search':''
+      },
+      total: 0
     }
   },
   mounted() {
@@ -54,16 +65,27 @@ export default {
     this.fetchAllContainers()
   },
   methods: {
+    handleSizeChange(page_size) {
+      console.log(`每页 ${page_size} 条`);
+      this.params.page_size = page_size
+      this.fetchContainersList()
+    },
+    handleCurrentChange(page) {
+      console.log(`当前页: ${page}`);
+      this.params.page = page
+      this.fetchContainersList()
+    },
     fetchContainersList() {
       this.listLoading = true
-      getContainersList().then(response => {
+      getContainersList(this.params).then(response => {
         this.list = response.data.lists
+        this.total = response.data.count
         this.listLoading = false
       })
     },
     fetchAllContainers() {
       getTotalContainers().then(response => {
-        this.number = response.data.count
+        this.number = response.data.number
       })
     },
     startcontainer(id) {

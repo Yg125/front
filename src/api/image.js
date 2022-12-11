@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getImageList() {
+export function getImageList(params) {
     return request({
       url: 'lab/images/',
-      method: 'get'
+      method: 'get',
+      params
     })
 }
 
