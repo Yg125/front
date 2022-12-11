@@ -1,4 +1,6 @@
 <template>
+    <div>
+    <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCourse" />
     <el-table :data="list" border style="width: 100%" stripe>
         <el-table-column prop="name" label="课程名称" align="center">
         </el-table-column>
@@ -12,6 +14,11 @@
             </template>
         </el-table-column>
     </el-table>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.page"
+            :page-sizes="[1, 2, 10, 20, 50, 100]" :page-size="params.page_size"
+            layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+    </div>
 </template>
 <script>
 import { selectCourse,select } from '@/api/courses';
@@ -19,16 +26,33 @@ import { selectCourse,select } from '@/api/courses';
 export default {
     data() {
         return {
-            list: []
+            list: [],
+            params: {
+                'page': 1,
+                'page_size': 10,
+                'search': ''
+            },
+            total: 0
         }
     },
     mounted() {
         this.fetchCourse()
     },
     methods: {
+        handleSizeChange(page_size) {
+            console.log(`每页 ${page_size} 条`);
+            this.params.page_size = page_size
+            this.fetchCourse()
+        },
+        handleCurrentChange(page) {
+            console.log(`当前页: ${page}`);
+            this.params.page = page
+            this.fetchCourse()
+        },
         fetchCourse() {
-            selectCourse().then(response => {
+            selectCourse(this.params).then(response => {
                 this.list = response.data.lists
+                this.total = response.data.count
             })
         },
         sel(row){
