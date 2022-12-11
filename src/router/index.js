@@ -254,16 +254,16 @@ export const asyncRoutes = [
         meta: { title:'课程管理', icon: 'el-icon-s-platform'}
       }, 
       {
-        path: 'build',
-        name: 'Build',
-        component: () => import('@/views/build/index'),
-        meta: { title:'构建镜像', icon: 'el-icon-s-platform'}
-      },
-      {
         path: 'images',
         name: 'Images',
         component: () => import('@/views/showimages/index'),
         meta: { title: '查看镜像', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'build',
+        name: 'Build',
+        component: () => import('@/views/build/index'),
+        meta: { title:'构建镜像', icon: 'el-icon-s-platform'}
       },
     ]
   },

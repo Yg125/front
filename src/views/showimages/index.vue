@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchImagesList" />
     <el-table :data="list" border style="width: 100%">
       <el-table-column fixed prop="image_id" label="镜像ID" align="center">
       </el-table-column>
@@ -8,8 +10,12 @@
       </el-table-column>
       <el-table-column prop="mem" label="大小" align="center">
       </el-table-column>
-      
     </el-table>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="params.page"
+            :page-sizes="[2, 10, 20, 50, 100]" :page-size="params.page_size"
+            layout="total, sizes, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+  </div>
   </template>
     
   <script>
@@ -18,18 +24,35 @@
     data() {
       return {
         list: null,
-        listLoading: true
+        listLoading: true,
+        params: {
+                'page': 1,
+                'page_size': 10,
+                'search': ''
+            },
+            total: 0
       }
     },
     created() {
       this.fetchImagesList()
     },
     methods: {
+      handleSizeChange(page_size) {
+            console.log(`每页 ${page_size} 条`);
+            this.params.page_size = page_size
+            this.fetchImagesList()
+        },
+        handleCurrentChange(page) {
+            console.log(`当前页: ${page}`);
+            this.params.page = page
+            this.fetchImagesList()
+        },
       fetchImagesList() {
         this.listLoading = true
-        getImageList().then(response => {
+        getImageList(this.params).then(response => {
           this.list = response.data.lists
           this.listLoading = false
+          this.total = response.data.count
         })
       },
       deleteimage(id){
