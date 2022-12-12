@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCoursesList"/>
-    <el-table :data="list" border style="width: 100%">
+    <el-table :data="list" border style="width: 100%" v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
       <el-table-column fixed prop="name" label="课程名称" align="center">
       </el-table-column>
       <el-table-column prop="env" label="实验环境" align="center">
@@ -92,7 +94,7 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true,
+      Loading: true,
       courseForm: {
           name:'',
           env:'',
@@ -143,11 +145,11 @@ export default {
       this.fetchCoursesList()
     },
     fetchCoursesList() {
-      this.listLoading = true
+      this.Loading = true
       getCoursesList(this.params).then(response => {
         this.list = response.data.lists
         this.total = response.data.count
-        this.listLoading = false
+        this.Loading = false
       })
     },
     fetchImageList(){

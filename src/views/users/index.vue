@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <el-input v-model="params.search" placeholder="请输入用户名、工号进行搜索" @change="fetchUsersList"/>
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
+    <el-table v-loading="loading" :data="list" element-loading-text="Loading" border fit highlight-current-row
+        element-loading-spinner="el-icon-loading">
       <el-table-column align="center" label="Work_ID" width="95">
         <template slot-scope="scope">
           {{ scope.row.work_id }}
@@ -48,6 +49,7 @@
       :page-sizes="[2, 10, 20, 50, 100, 200, 300, 400]" :page-size="params.page_size"
       layout="total, sizes, prev, pager, next, jumper" :total="total">
     </el-pagination>
+
     <el-dialog title="修改用户" :visible.sync="visible">
       <el-form :model="userForm">
         <el-form-item label="用户名:" prop="username">
@@ -183,7 +185,7 @@ export default {
     };
     return {
       list: null,
-      listLoading: true,
+      Loading: true,
       visible: false,
       pop_show: false,
       userForm: {
@@ -242,12 +244,12 @@ export default {
       this.fetchUsersList()
     },
     fetchUsersList() {
-      this.listLoading = true
+      this.Loading = true
       getUsersList(this.params).then(response => { 
         console.log(response.data)
         this.list = response.data.lists
         this.total = response.data.count
-        this.listLoading = false
+        this.Loading = false
       })
     },
     adduser() {

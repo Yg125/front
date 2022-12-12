@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchImagesList" />
-    <el-table :data="list" border style="width: 100%">
+    <el-table :data="list" border style="width: 100%" v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
       <el-table-column fixed prop="image_id" label="镜像ID" align="center">
       </el-table-column>
       <el-table-column prop="image_name" label="镜像名称" align="center">
@@ -24,7 +26,7 @@
     data() {
       return {
         list: null,
-        listLoading: true,
+        Loading: true,
         params: {
                 'page': 1,
                 'page_size': 10,
@@ -48,10 +50,10 @@
             this.fetchImagesList()
         },
       fetchImagesList() {
-        this.listLoading = true
+        this.Loading = true
         getImageList(this.params).then(response => {
           this.list = response.data.lists
-          this.listLoading = false
+          this.Loading = false
           this.total = response.data.count
         })
       },

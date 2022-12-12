@@ -1,7 +1,8 @@
 <template>
     <div>
         <el-input v-model="params.search" placeholder="请输入容器名称或者容器ID进行搜索" @change="fetchContainersList" />
-        <el-table :data="list" border style="width: 100%">
+        <el-table :data="list" border style="width: 100%" v-loading="loading" element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading">
             <el-table-column fixed prop="container_id" label="容器ID" align="center">
             </el-table-column>
             <el-table-column prop="name" label="容器名称" align="center">
@@ -50,7 +51,7 @@ export default {
     data() {
         return {
             list: null,
-            listLoading: true,
+            Loading: true,
             number: 0,
             params: {
                 'page': 1,
@@ -62,7 +63,7 @@ export default {
     },
     mounted() {
         this.fetchContainersList(),
-        this.fetchAllContainers()
+            this.fetchAllContainers()
     },
     methods: {
         handleSizeChange(page_size) {
@@ -76,10 +77,10 @@ export default {
             this.fetchContainersList()
         },
         fetchContainersList() {
-            this.listLoading = true
+            this.Loading = true
             getMyContainersList(this.params).then(response => {
                 this.list = response.data.lists
-                this.listLoading = false
+                this.Loading = false
                 this.total = response.data.count
             })
         },
@@ -97,14 +98,14 @@ export default {
         stopcontainer(id) {
             StopContainer(id).then(response => {
                 this.fetchContainersList()
-                this.$message('停止容器成功') 
+                this.$message('停止容器成功')
             })
         },
         removecontainer(id) {
             RemoveContainer(id).then(response => {
                 this.fetchContainersList()
                 this.fetchAllContainers()
-                this.$message('删除容器成功') 
+                this.$message('删除容器成功')
             })
         }
     }

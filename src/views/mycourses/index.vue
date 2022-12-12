@@ -1,7 +1,9 @@
 <template>
     <div>
         <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCourse" />
-        <el-table :data="list" border style="width: 100%" stripe>
+        <el-table :data="list" border style="width: 100%" stripe v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
             <el-table-column prop="name" label="课程名称" align="center">
             </el-table-column>
             <el-table-column prop="env" label="实验环境" align="center">
@@ -37,7 +39,8 @@ export default {
                 'page_size': 10,
                 'search': ''
             },
-            total: 0
+            total: 0,
+            loading: true,
         }
     },
     mounted() {
@@ -55,8 +58,10 @@ export default {
             this.fetchCourse()
         },
         fetchCourse() {
+            this.loading = true
             selectedCourse(this.params).then(response => {
                 console.log(response.data)
+                this.loading = false
                 this.list = response.data.lists
                 this.total = response.data.count
             })
