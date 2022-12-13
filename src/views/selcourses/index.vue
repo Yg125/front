@@ -53,9 +53,9 @@ export default {
             this.fetchCourse()
         },
         fetchCourse() {
-            this.loading = false
+            this.loading = true
             selectCourse(this.params).then(response => {
-                this.loading = true
+                this.loading = false
                 this.list = response.data.lists
                 this.total = response.data.count
             })

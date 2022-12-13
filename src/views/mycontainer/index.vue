@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class>
         <el-input v-model="params.search" placeholder="请输入容器名称或者容器ID进行搜索" @change="fetchContainersList" />
         <el-table :data="list" border style="width: 100%" v-loading="loading" element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading">
@@ -22,10 +22,16 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="300px">
                 <template slot-scope="scope">
+                    <div>
+                    <el-link
+                        :href="'http://127.0.0.1:8888/?hostname=127.0.0.1&username=root&password=' + pass + '&port=' + scope.row.port"
+                        target="_blank" type="primary" width="100px">连接</el-link>
+                    </div>
                     <el-button v-show="(scope.row.status !== 'exited')" @click="stopcontainer(scope.row.container_id)"
-                        type="primary" size="mini" plain>停止</el-button>
+                        type="primary" size="mini" plain width="100px">停止</el-button>
                     <el-button v-show="(scope.row.status === 'exited')" @click="startcontainer(scope.row.container_id)"
-                        type="primary" size="mini" plain>启动</el-button>
+                        type="primary" size="mini" plain width="100px">启动</el-button>
+
                     <el-popconfirm v-show="scope.row.status !== 'exited'" title="该容器还在运行，确定删除吗？"
                         @onConfirm="removecontainer(scope.row.id)">
                         <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
@@ -58,7 +64,8 @@ export default {
                 'page_size': 10,
                 'search': ''
             },
-            total: 0
+            total: 0,
+            pass: btoa('123456'),
         }
     },
     mounted() {

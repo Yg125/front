@@ -16,9 +16,9 @@
               主页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://space.bilibili.com/439068477">
+          <!-- <a target="_blank" href="https://space.bilibili.com/439068477">
             <el-dropdown-item>火星小刘的B站</el-dropdown-item>
-          </a>
+          </a> -->
           <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>

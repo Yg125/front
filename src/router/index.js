@@ -62,18 +62,18 @@ export const constantRoutes = [
   },
 
 
-  {
-    path: '/table2',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Table2',
-        component: () => import('@/views/table2/index'),
-        meta: { title: 'Table2', icon: 'el-icon-document' }
-      }
-    ]
-  },
+  // {
+  //   path: '/table2',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Table2',
+  //       component: () => import('@/views/table2/index'),
+  //       meta: { title: 'Table2', icon: 'el-icon-document' }
+  //     }
+  //   ]
+  // },
  
   
   // {
@@ -238,6 +238,11 @@ export const asyncRoutes = [
         name: 'Myfiles',
         component: () => import('@/views/files/index'), 
         meta: { title: '我的文件', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'http://127.0.0.1:9090/login',
+        name: 'files',
+        meta: { title: '文件管理', icon: 'el-icon-s-platform' }
       },
     ]
   },
