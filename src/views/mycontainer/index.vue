@@ -23,7 +23,7 @@
             <el-table-column fixed="right" label="操作" align="center" width="300px">
                 <template slot-scope="scope">
                     <div>
-                    <el-link
+                    <el-link v-show="(scope.row.status !== 'exited')"
                         :href="'http://127.0.0.1:8888/?hostname=127.0.0.1&username=root&password=' + pass + '&port=' + scope.row.port"
                         target="_blank" type="primary" width="100px">连接</el-link>
                     </div>

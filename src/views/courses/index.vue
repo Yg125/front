@@ -1,9 +1,8 @@
 <template>
   <div>
-    <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCoursesList"/>
-    <el-table :data="list" border style="width: 100%" v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading">
+    <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCoursesList" />
+    <el-table :data="list" border style="width: 100%" v-loading="loading" element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading">
       <el-table-column fixed prop="name" label="课程名称" align="center">
       </el-table-column>
       <el-table-column prop="env" label="实验环境" align="center">
@@ -32,16 +31,20 @@
     <el-dialog title="修改课程信息" :visible.sync="visible">
       <el-form :model="courseForm">
         <el-form-item label="课程名:" prop="name">
-          <el-input type="text" v-model="courseForm.name" autocomplete="off" size="small" class="input_width"></el-input>
+          <el-input type="text" v-model="courseForm.name" autocomplete="off" size="small"
+            class="input_width"></el-input>
         </el-form-item>
         <el-form-item label="实验环境:" prop="env">
-          <el-input type="textarea" v-model="courseForm.env" autocomplete="off" size="small" class="input_width"></el-input>
+          <el-input type="textarea" v-model="courseForm.env" autocomplete="off" size="small"
+            class="input_width"></el-input>
         </el-form-item>
         <el-form-item label="所选人数" prop="number">
-          <el-input type="text" v-model="courseForm.number" autocomplete="off" size="small" class="input_width" disabled></el-input>
+          <el-input type="text" v-model="courseForm.number" autocomplete="off" size="small" class="input_width"
+            disabled></el-input>
         </el-form-item>
         <el-form-item label="创建人：" prop="create_by">
-          <el-input type="text" v-model="courseForm.create_by" autocomplete="off" size="small" class="input_width"></el-input>
+          <el-input type="text" v-model="courseForm.create_by" autocomplete="off" size="small"
+            class="input_width"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -54,8 +57,7 @@
     <el-dialog title="新增课程" :visible.sync="pop_show" append-to-body>
       <el-form :model="addForm" ref="addForm" status-icon label-width="100px">
         <el-form-item label="课程名:" prop="name">
-          <el-input type="text" v-model="addForm.name" autocomplete="off" size="small"
-            class="input_width"></el-input>
+          <el-input type="text" v-model="addForm.name" autocomplete="off" size="small" class="input_width"></el-input>
         </el-form-item>
         <el-form-item label="实验环境:" prop="env">
           <el-input type="textarea" v-model="addForm.env" autocomplete="off" size="small"
@@ -68,16 +70,11 @@
 
         <el-form-item label="使用镜像:" prop="image_id" required>
           <el-select v-model="addForm.image_id" size="small">
-              <el-option
-                v-for="item in images_list"
-                :key="item.id"
-                :label="item.image_name"
-                :value="item.id"
-                >
-              </el-option>
-            </el-select>
+            <el-option v-for="item in images_list" :key="item.id" :label="item.image_name" :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
-        
+
         <el-form-item>
           <el-button type="primary" @click="addcourse">提交</el-button>
           <el-button @click="resetForm('addForm')">重置</el-button>
@@ -96,32 +93,32 @@ export default {
       list: null,
       Loading: true,
       courseForm: {
-          name:'',
-          env:'',
-          number:'',
-          create_by:'',
-          image_id:'',
+        name: '',
+        env: '',
+        number: '',
+        create_by: '',
+        image_id: '',
       },
-      addForm:{
-          name:'',
-          env:'',
-          create_by:'',
-          image_id:'',
-          number:0, // 默认为0 选课逻辑中后端需要一个int 
+      addForm: {
+        name: '',
+        env: '',
+        create_by: '',
+        image_id: '',
+        number: 0, // 默认为0 选课逻辑中后端需要一个int 
       },
-      images_list:[],
+      images_list: [],
       visible: false,
-      pop_show:false,
+      pop_show: false,
       params: {
         'page': 1,
         'page_size': 10,
-        'search':''
+        'search': ''
       },
       total: 0
     }
   },
-  watch:{
-    visible(){
+  watch: {
+    visible() {
       this.resetForm('courseForm')
       this.fetchCoursesList()
     },
@@ -131,7 +128,7 @@ export default {
   },
   mounted() {
     this.fetchCoursesList(),
-    this.fetchImageList()
+      this.fetchImageList()
   },
   methods: {
     handleSizeChange(page_size) {
@@ -152,8 +149,8 @@ export default {
         this.Loading = false
       })
     },
-    fetchImageList(){
-      getImageList().then(response =>{
+    fetchImageList() {
+      getImageList().then(response => {
         this.images_list = response.data.lists
         console.log(images_list)
       })
@@ -161,7 +158,7 @@ export default {
     addcourse() {
       addCourse(this.addForm).then(response => {
         this.fetchCoursesList()
-        this.pop_show=false
+        this.pop_show = false
         this.resetForm('addForm')
       })
     },
@@ -173,6 +170,12 @@ export default {
     },
     deletecourse(row) {
       deleteCourse(row.id).then(response => {
+        if (response.data.error === undefined) {
+          this.$message('课程删除成功')
+        }
+        else {
+          this.$message(response.data.error)
+        }
         this.fetchCoursesList()
       })
     },
