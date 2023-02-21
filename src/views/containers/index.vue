@@ -1,9 +1,8 @@
 <template>
   <div>
-    <el-input v-model="params.search" placeholder="请输入容器名称或者容器ID进行搜索" @change="fetchContainersList"/>
-    <el-table :data="list" border style="width: 100%" v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading">
+    <el-input v-model="params.search" placeholder="请输入容器名称或者容器ID进行搜索" @change="fetchContainersList" />
+    <el-table :data="list" border style="width: 100%" v-loading="loading" element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading">
       <el-table-column fixed prop="container_id" label="容器ID" align="center">
       </el-table-column>
       <el-table-column prop="name" label="容器名称" align="center">
@@ -19,10 +18,17 @@
       </el-table-column>
       <el-table-column prop="courses.name" label="使用课程" align="center">
       </el-table-column>
-      <el-table-column prop="image.image_name" label="相关镜像" align="center">
+      <el-table-column prop="image.image_id" label="相关镜像id" align="center">
+      </el-table-column>
+      <el-table-column prop="users.username" label="使用者" align="center">
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center" width="300px">
         <template slot-scope="scope">
+          <div>
+            <el-link v-show="(scope.row.status !== 'exited')"
+              :href="'http://127.0.0.1:8888/?hostname=127.0.0.1&username=root&password=' + pass + '&port=' + scope.row.port"
+              target="_blank" type="primary" width="100px">连接</el-link>
+          </div>
           <el-button v-show="(scope.row.status !== 'exited')" @click="stopcontainer(scope.row.container_id)"
             type="primary" size="mini" plain>停止</el-button>
           <el-button v-show="(scope.row.status === 'exited')" @click="startcontainer(scope.row.container_id)"
@@ -35,6 +41,28 @@
             @onConfirm="removecontainer(scope.row.id)">
             <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
           </el-popconfirm>
+          <el-button type="primary" size="mini"
+            @click="pop_show = true; commitForm.container_id = scope.row.container_id">构建镜像</el-button>
+          <el-dialog title="构建镜像" :visible.sync="pop_show" append-to-body>
+            <el-form :model="commitForm" ref="commitForm" status-icon label-width="100px">
+              <el-form-item label="容器id:">
+                <el-input type="text" v-model="commitForm.container_id" autocomplete="off" size="small"
+                  class="input_width" disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="repository:">
+                <el-input type="text" v-model="commitForm.repository" autocomplete="off" size="small"
+                  class="input_width"></el-input>
+              </el-form-item>
+              <el-form-item label="tag:">
+                <el-input type="text" v-model="commitForm.tag" autocomplete="off" size="small"
+                  class="input_width"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="commitImage">提交</el-button>
+                <el-button @click="resetForm('commitForm')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </el-dialog>
         </template>
       </el-table-column>
     </el-table>
@@ -47,7 +75,7 @@
 </template>
   
 <script>
-import { getContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer } from '@/api/container'
+import { getContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer, CommitContainer } from '@/api/container'
 export default {
   data() {
     return {
@@ -57,14 +85,21 @@ export default {
       params: {
         'page': 1,
         'page_size': 10,
-        'search':''
+        'search': ''
       },
-      total: 0
+      commitForm: {
+        container_id: '',
+        tag: '',
+        repository: ''
+      },
+      total: 0,
+      pop_show: false,
+      pass: btoa('123456'),
     }
   },
   mounted() {
     this.fetchContainersList(),
-    this.fetchAllContainers()
+      this.fetchAllContainers()
   },
   methods: {
     handleSizeChange(page_size) {
@@ -99,15 +134,26 @@ export default {
     stopcontainer(id) {
       StopContainer(id).then(response => {
         this.fetchContainersList()
-        this.$message('停止容器成功') 
+        this.$message('停止容器成功')
       })
     },
     removecontainer(id) {
       RemoveContainer(id).then(response => {
         this.fetchContainersList()
         this.fetchAllContainers()
-        this.$message('删除容器成功') 
+        this.$message('删除容器成功')
       })
+    },
+    commitImage() {
+      console.log(this.commitForm)
+      CommitContainer(this.commitForm).then(response => {
+        this.resetForm('commitForm')
+        this.pop_show = false
+        this.$message('构建镜像成功')
+      })
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 }

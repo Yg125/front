@@ -51,3 +51,11 @@ export function RemoveContainer(container_id) {
     method: 'delete',
   })
 }
+
+export function CommitContainer(data) {
+  return request({
+    url: 'oper/commit/',
+    method: 'post',
+    data,
+  })
+}

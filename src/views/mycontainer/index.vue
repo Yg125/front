@@ -23,9 +23,9 @@
             <el-table-column fixed="right" label="操作" align="center" width="300px">
                 <template slot-scope="scope">
                     <div>
-                    <el-link v-show="(scope.row.status !== 'exited')"
-                        :href="'http://127.0.0.1:8888/?hostname=127.0.0.1&username=root&password=' + pass + '&port=' + scope.row.port"
-                        target="_blank" type="primary" width="100px">连接</el-link>
+                        <el-link v-show="(scope.row.status !== 'exited')"
+                            :href="'http://127.0.0.1:8888/?hostname=127.0.0.1&username=root&password=' + pass + '&port=' + scope.row.port"
+                            target="_blank" type="primary" width="100px">连接</el-link>
                     </div>
                     <el-button v-show="(scope.row.status !== 'exited')" @click="stopcontainer(scope.row.container_id)"
                         type="primary" size="mini" plain width="100px">停止</el-button>
@@ -40,6 +40,28 @@
                         @onConfirm="removecontainer(scope.row.id)">
                         <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
                     </el-popconfirm>
+                    <el-button type="primary" size="mini"
+                        @click="pop_show = true; commitForm.container_id = scope.row.container_id">构建镜像</el-button>
+                    <el-dialog title="构建镜像" :visible.sync="pop_show" append-to-body>
+                        <el-form :model="commitForm" ref="commitForm" status-icon label-width="100px">
+                            <el-form-item label="容器id:">
+                                <el-input type="text" v-model="commitForm.container_id" autocomplete="off" size="small"
+                                    class="input_width" disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="repository:">
+                                <el-input type="text" v-model="commitForm.repository" autocomplete="off" size="small"
+                                    class="input_width"></el-input>
+                            </el-form-item>
+                            <el-form-item label="tag:">
+                                <el-input type="text" v-model="commitForm.tag" autocomplete="off" size="small"
+                                    class="input_width"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="commitImage">提交</el-button>
+                                <el-button @click="resetForm('commitForm')">重置</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-dialog>
                 </template>
             </el-table-column>
         </el-table>
@@ -52,7 +74,7 @@
 </template>
   
 <script>
-import { getMyContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer } from '@/api/container'
+import { getMyContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer, CommitContainer } from '@/api/container'
 export default {
     data() {
         return {
@@ -64,7 +86,13 @@ export default {
                 'page_size': 10,
                 'search': ''
             },
+            commitForm: {
+                container_id: '',
+                tag: '',
+                repository: ''
+            },
             total: 0,
+            pop_show: false,
             pass: btoa('123456'),
         }
     },
@@ -114,6 +142,17 @@ export default {
                 this.fetchAllContainers()
                 this.$message('删除容器成功')
             })
+        },
+        commitImage() {
+            console.log(this.commitForm)
+            CommitContainer(this.commitForm).then(response => {
+                this.resetForm('commitForm')
+                this.pop_show = false
+                this.$message('构建镜像成功')
+            })
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
         }
     }
 }
