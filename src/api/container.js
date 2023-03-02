@@ -24,10 +24,11 @@ export function getTotalContainers(params) {
   })
 }
 
-export function CreateContainer(params) {
+export function CreateContainer(data) {
   return request({
-    url: 'oper/createcontainer/?course_id=' + params,
-    method: 'get',
+    url: 'oper/createcontainer/',
+    method: 'post',
+    data
   })
 }
 
@@ -55,6 +56,14 @@ export function RemoveContainer(container_id) {
 export function CommitContainer(data) {
   return request({
     url: 'oper/commit/',
+    method: 'post',
+    data,
+  })
+}
+
+export function UpdateContainer(data) {
+  return request({
+    url: 'oper/update/',
     method: 'post',
     data,
   })

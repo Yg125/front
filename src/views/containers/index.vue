@@ -41,8 +41,10 @@
             @onConfirm="removecontainer(scope.row.id)">
             <el-button type="danger" size="mini" slot="reference" plain>删除</el-button>
           </el-popconfirm>
-          <el-button type="primary" size="mini"
+          <div>
+          <el-button type="success" plain size="mini"
             @click="pop_show = true; commitForm.container_id = scope.row.container_id">构建镜像</el-button>
+          </div>
           <el-dialog title="构建镜像" :visible.sync="pop_show" append-to-body>
             <el-form :model="commitForm" ref="commitForm" status-icon label-width="100px">
               <el-form-item label="容器id:">
@@ -63,6 +65,30 @@
               </el-form-item>
             </el-form>
           </el-dialog>
+
+          <el-button type="info" plain size="mini"
+            @click="push_show = true; updateForm.container_id = scope.row.container_id">修改容器信息</el-button>
+          <el-dialog title="更新容器" :visible.sync="push_show" append-to-body>
+            <el-form :model="updateForm" ref="updateForm" status-icon label-width="100px">
+              <el-form-item label="容器id:">
+                <el-input type="text" v-model="updateForm.container_id" autocomplete="off" size="small"
+                  class="input_width" disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="cpu数:">
+                <el-input type="text" v-model="updateForm.cpu" autocomplete="off" size="small"
+                  class="input_width"></el-input>
+              </el-form-item>
+              <el-form-item label="内存大小:">
+                <el-input type="text" v-model="updateForm.mem" autocomplete="off" size="small"
+                  class="input_width"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="updatecontainer">提交</el-button>
+                <el-button @click="resetForm('updateForm')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </el-dialog>
+
         </template>
       </el-table-column>
     </el-table>
@@ -75,7 +101,7 @@
 </template>
   
 <script>
-import { getContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer, CommitContainer } from '@/api/container'
+import { getContainersList, getTotalContainers, StartContainer, StopContainer, RemoveContainer, CommitContainer, UpdateContainer } from '@/api/container'
 export default {
   data() {
     return {
@@ -92,8 +118,14 @@ export default {
         tag: '',
         repository: ''
       },
+      updateForm:{
+        container_id: '',
+        cpu: '',
+        mem: ''
+      },
       total: 0,
       pop_show: false,
+      push_show: false,
       pass: btoa('123456'),
     }
   },
@@ -150,6 +182,13 @@ export default {
         this.resetForm('commitForm')
         this.pop_show = false
         this.$message('构建镜像成功')
+      })
+    },
+    updatecontainer(){
+      UpdateContainer(this.updateForm).then(response=>{
+        console.log(this.updateForm)
+          this.push_show = false
+          this.$message('容器修改成功')
       })
     },
     resetForm(formName) {

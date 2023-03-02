@@ -1,9 +1,8 @@
 <template>
     <div>
         <el-input v-model="params.search" placeholder="请输入课程名称进行搜索" @change="fetchCourse" />
-        <el-table :data="list" border style="width: 100%" stripe v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading">
+        <el-table :data="list" border style="width: 100%" stripe v-loading="loading" element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading">
             <el-table-column prop="name" label="课程名称" align="center">
             </el-table-column>
             <el-table-column prop="env" label="实验环境" align="center">
@@ -12,7 +11,27 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="small" plain @click="createcontainer(scope.row.id)">运行容器</el-button>
+                    <el-button type="primary" size="small" plain @click="pop_show = true; containerForm.course_id = scope.row.id">运行容器</el-button>
+                    <el-dialog title="容器信息" :visible.sync="pop_show" append-to-body>
+                        <el-form :model="containerForm" ref="containerForm" status-icon label-width="100px">
+                            <!-- <el-form-item label="课程id:">
+                                <el-input type="text" v-model="containerForm.course_id" autocomplete="off" size="small"
+                                    class="input_width" disabled="true"></el-input>
+                            </el-form-item> -->
+                            <el-form-item label="容器cpu数:">
+                                <el-input type="text" v-model="containerForm.cpu" autocomplete="off" size="small"
+                                    class="input_width"></el-input>
+                            </el-form-item>
+                            <el-form-item label="容器内存:">
+                                <el-input type="text" v-model="containerForm.mem" autocomplete="off" size="small"
+                                    class="input_width"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="createcontainer">提交</el-button>
+                                <el-button @click="resetForm('containerForm')">重置</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-dialog>
                 </template>
             </el-table-column>
         </el-table>
@@ -38,6 +57,12 @@ export default {
                 'page': 1,
                 'page_size': 10,
                 'search': ''
+            },
+            pop_show: false,
+            containerForm: {
+                container_id: '',
+                mem: '',
+                tag: '',
             },
             total: 0,
             loading: true,
@@ -66,12 +91,13 @@ export default {
                 this.total = response.data.count
             })
         },
-        createcontainer(id) {
-            console.log(id);
-            CreateContainer(id).then(response => {
+        createcontainer() {
+            console.log(this.containerForm);
+            CreateContainer(this.containerForm).then(response => {
                 this.ip = response.data.ip_address
                 this.user = response.data.user
                 this.password = response.data.password
+                this.pop_show = false
                 this.str =
                     this.$alert('ip地址为 ' + this.ip + `<br>`
                         + '默认用户名为 ' + this.user + `<br>`
@@ -82,6 +108,9 @@ export default {
                     );
             })
         },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        }
     }
 
 }
